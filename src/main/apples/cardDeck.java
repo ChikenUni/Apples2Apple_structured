@@ -14,7 +14,7 @@ public class cardDeck { // Deck class that works for any kind of card, filename 
     public cardDeck(String file){
         try {
             //System.out.println(new File(".").getAbsolutePath());
-            this.cards = new ArrayList<>(Files.readAllLines(Paths.get("./src/main/apples/", file), StandardCharsets.ISO_8859_1));
+            this.cards = new ArrayList<>(Files.readAllLines(Paths.get("./resources/", file), StandardCharsets.ISO_8859_1));
         } catch(Exception e){
             System.out.println("Something went wrong: " + e);
         }
