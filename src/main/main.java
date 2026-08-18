@@ -3,6 +3,10 @@ package src.main;
 import src.main.engines.*;
 
 public class main {
+
+    static int defaultPort = 2048;
+
+    // Initialize the game according to spec, either creating a client or a host depending on the arguments supplied
     public static void main(String[] args) {
         if(args.length == 0){
             System.out.println("Running the game with only bots!");
@@ -14,14 +18,14 @@ public class main {
                 setupHost(onlinePlayers);
             } catch (Exception e) {
                 System.out.println("Running the game as a client!");
-                gameEngine_client game = new gameEngine_client(args[0],2048);
+                GameEngineClient game = new GameEngineClient(args[0], defaultPort);
                 game.runGame();
             }
         }
-    } // Initialize the game according to spec, either creating a client or a host depending on the arguments supplied
+    } 
 
     static void setupHost(int onlinePlayers){
-        gameEngine_host game = new gameEngine_host(onlinePlayers);
+        GameEngineHost game = new GameEngineHost(onlinePlayers, defaultPort);
         game.createPlayers(onlinePlayers);
         game.createPhases(onlinePlayers);
         game.initialDeal();

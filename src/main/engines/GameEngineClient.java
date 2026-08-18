@@ -9,17 +9,17 @@ import java.util.Scanner;
 import src.main.players.*;
 import src.main.apples.*;
 
-public class gameEngine_client {
+public class GameEngineClient {
     ArrayList<String> hand;
     BufferedReader inFromHost;
     DataOutputStream outToHost;
     Socket socket;
     Scanner inputReader;
-    playerLocal clientPlayer;
+    PlayerLocal clientPlayer;
     boolean gameOver = false;
 
-    public gameEngine_client(String hostAddress, int port){
-        clientPlayer = new playerLocal(0); 
+    public GameEngineClient(String hostAddress, int port) {
+        clientPlayer = new PlayerLocal(0); 
         // The player ID of the client player does not matter locally
         // Keeping track of IDs across the network would be a hassle so it is tracked by the host only
         try {
@@ -31,13 +31,16 @@ public class gameEngine_client {
         }
     }
 
-    public void runGame(){
+    // Keep reading and handling messages until the server tells the client to stop.
+    public void runGame() {
         while(!gameOver){
             dispatchMessage();
         } 
-    } // Keep reading and handling messages until the server tells the client to stop.
+    } 
 
-    public void dispatchMessage(){
+    // Handle each incoming message according to their prefix, simpler instructions can keep their logic in the switch
+    // More complex tasks are better to break into separate methods and invoked from the switch instead.
+    public void dispatchMessage() {
         String[] splitMessage;
         try{
             String message = inFromHost.readLine();
@@ -46,6 +49,7 @@ public class gameEngine_client {
             // Messages are always constructed according to the format: classifier|payload
             // Payloads may be further divided into more sections, also separated using the | sign
             switch (splitMessage[0]) {
+
             case "draw":
                 // Add card transmitted in the message
                 clientPlayer.addToHand(splitMessage[1]);
@@ -93,12 +97,12 @@ public class gameEngine_client {
             gameOver =  true;
             // If the server loses connection we close the game
         }
-    }  // Handle each incoming message according to their prefix, simpler instructions can keep their logic in the switch
-       // More complex tasks are better to break into separate methods and invoked from the switch instead.
+    }  
 
-    private void clientPlay(){
+    // Scaffolding around playerLocal's play() method, and then sending the apple back to the server as a string.
+    private void clientPlay() {
         // Prompt user to play a card, then send it to the server
-        ArrayList<playedApple> clientApple = new ArrayList<>();
+        ArrayList<PlayedApple> clientApple = new ArrayList<>();
         clientPlayer.play(clientApple);
         String output = clientApple.get(0).apple;
         try {
@@ -106,16 +110,17 @@ public class gameEngine_client {
         } catch (Exception e) {
             System.out.println("Error in sending played card to host: " +e);
         }
-    }  // Scaffolding around playerLocal's play() method, and then sending the apple back to the server as a string.
+    }
 
-    private void clientJudge(String[] message){
+    // Scaffolding around playerLocal's judge method, and sending it back to the server
+    private void clientJudge(String[] message) {
         // judge message is formatted: classifier|apple1|id1|apple2|id2 and so on
-        playedApple winningApple = new playedApple("placeHolder", 0);
-        ArrayList<playedApple> allPlayed = new ArrayList<>();
+        PlayedApple winningApple = new PlayedApple("placeHolder", 0);
+        ArrayList<PlayedApple> allPlayed = new ArrayList<>();
 
         for (int i = 1 ; i < message.length ; i+=2) {
             int ID = Integer.parseInt(message[i+1]);
-            allPlayed.add(new playedApple(message[i], ID));
+            allPlayed.add(new PlayedApple(message[i], ID));
         }   // Reformat text string into the apple format needed for judging
             // An alternative way of handling this process would be to use a json format and a serializer method
             // I opted for this method to use as few new imports as possible
@@ -128,22 +133,24 @@ public class gameEngine_client {
         } catch (Exception e) {
             System.out.println("Error in sending winning card to host: " +e);
         }
-    }  // Scaffolding around playerLocal's judge method, and sending it back to the server
+    }  
 
-    private void roundStart(String[] message){
+    // Announce judge and green apple
+    private void roundStart(String[] message) {
         System.out.println("****************************************************");
         System.out.println(message[2]);
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("The green apple is: "+message[1]);
         System.out.println("****************************************************");
-    }  // Announce judge and green apple
+    }  
 
-    private void showApples(String[] message){
-        ArrayList<playedApple> allPlayed = new ArrayList<>();
+    // Scaffolding around playerLocal's showApple method
+    private void showApples(String[] message) {
+        ArrayList<PlayedApple> allPlayed = new ArrayList<>();
 
         for (int i = 1 ; i < message.length ; i++) {
-            allPlayed.add(new playedApple(message[i], 0));
+            allPlayed.add(new PlayedApple(message[i], 0));
         }
         clientPlayer.showApples(allPlayed);
-    } // Scaffolding around playerLocal's showApple method
+    } 
 }

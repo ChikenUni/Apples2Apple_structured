@@ -5,17 +5,17 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import src.main.apples.*;
 
-public class gameStateObject {
+public class GameStateObject {
     private String newGreen;
-    private playedApple winningApple;
-    private ArrayList<playedApple> allPlayedApples;
+    private PlayedApple winningApple;
+    private ArrayList<PlayedApple> allPlayedApples;
     private int judgeID;
     private int hostID;
     private boolean gameFinished;
-    public cardDeck greenDeck;
-    public cardDeck redDeck;
+    public CardDeck greenDeck;
+    public CardDeck redDeck;
 
-    public gameStateObject(cardDeck greenDeck, cardDeck redDeck, int playerCount){
+    public GameStateObject(CardDeck greenDeck, CardDeck redDeck, int playerCount){
         Random rnd = ThreadLocalRandom.current();
         this.judgeID = rnd.nextInt(playerCount); // randomize starting judge
         this.gameFinished = false;
@@ -30,11 +30,11 @@ public class gameStateObject {
         this.newGreen = newGreen;
     }
 
-    public void setWinning(playedApple winning){
+    public void setWinning(PlayedApple winning){
         this.winningApple = winning;
     }
 
-    public void setAllPlayed(ArrayList<playedApple> allApples){
+    public void setAllPlayed(ArrayList<PlayedApple> allApples){
         this.allPlayedApples = allApples;
     }
 
@@ -56,11 +56,11 @@ public class gameStateObject {
         return this.newGreen;
     }
 
-    public ArrayList<playedApple> getAllPlayed(){
+    public ArrayList<PlayedApple> getAllPlayed(){
         return this.allPlayedApples;
     }
 
-    public playedApple getWinningApple(){
+    public PlayedApple getWinningApple(){
         return this.winningApple;
     }
 

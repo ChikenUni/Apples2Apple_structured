@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import src.main.stateObject.*;
 import src.main.players.*;
 
-public class gamePhase_roundstart extends gamePhase {
+public class GamePhaseRoundstart extends GamePhase {
     
     int judgeID;
 
-    public gamePhase_roundstart(ArrayList<player> players){
+    public GamePhaseRoundstart(ArrayList<Player> players) {
         this.players = players;
     }
 
-    @Override public void execute(gameStateObject data){
+    // Increment judgeID and draw a new green apple, updating the gameStateObject with the new information
+    @Override public void execute(GameStateObject data) {
         String newGreen = data.greenDeck.draw();
         judgeID = data.getJudge() + 1; // 
         if (judgeID >= players.size()) {
@@ -20,9 +21,8 @@ public class gamePhase_roundstart extends gamePhase {
         }
         data.setGreen(newGreen);
         data.setJudgeID(judgeID);
-        for(int i = 0 ; i < players.size() ; i++){
+        for (int i = 0 ; i < players.size() ; i++) {
             players.get(i).startRound(newGreen, judgeID);
         }
-        // Increment judgeID and draw a new green apple, updating the gameStateObject with the new information
     }
 }

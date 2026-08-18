@@ -2,25 +2,26 @@ package src.main.players;
 
 import java.util.ArrayList;
 import java.util.List;
-import src.main.apples.playedApple;
+import src.main.apples.PlayedApple;
 
-public class playerBot extends player {
+public class PlayerBot extends Player {
     // The bot player always plays and votes for the card with index zero in both methods
     // Since it is a bot and cannot read, the methods that communicate textual information remain unimplemented
-    public playerBot(int playerID){
+    public PlayerBot(int playerID){
         super(playerID);
     }
 
-    @Override public void play(List<playedApple> apples){
+    // play the card at index zero
+    @Override public void play(List<PlayedApple> apples) {
         String selectedCard = removeFromHand(0);
-        playedApple justPlayed = new playedApple(selectedCard, playerID);
+        PlayedApple justPlayed = new PlayedApple(selectedCard, playerID);
         apples.add(justPlayed);
-        // add selected card to total list of played cards through some means
     }
-    @Override public void judge(playedApple winningApple, ArrayList<playedApple> apples) {
+
+    // vote for the card at index zero, list is shuffled before so this is fair
+    @Override public void judge(PlayedApple winningApple, ArrayList<PlayedApple> apples) {
         int winningID = apples.get(0).playerID;
         String winningText = apples.get(0).apple;
         winningApple.setValue(winningText, winningID);
-        // communicate to game manager through some means
     }
 }
