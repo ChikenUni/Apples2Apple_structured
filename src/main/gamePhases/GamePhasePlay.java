@@ -43,7 +43,7 @@ public class GamePhasePlay extends GamePhase{
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                System.out.println("Interruption occured");
+                System.err.println("Interruption occured");
             }
         }
 

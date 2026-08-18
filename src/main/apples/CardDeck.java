@@ -1,5 +1,6 @@
 package src.main.apples;
 
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,8 +16,12 @@ public class CardDeck { // Deck class that works for any kind of card, filename 
     public CardDeck(String file) {
         try {
             this.cards = new ArrayList<>(Files.readAllLines(Paths.get("./resources/", file), StandardCharsets.ISO_8859_1));
-        } catch(Exception e){
-            System.out.println("Something went wrong: " + e);
+        } catch(FileNotFoundException e){
+            System.err.println("The file could not be found, check if the file is where it should be, or try changing to an absolute path in cardDeck: " + e);
+            System.exit(0);
+        } catch( Exception e){
+            System.err.println("Unexpected error in CardDeck: " + e);
+            System.exit(0);
         }
         this.usedCards = new ArrayList<>();
         shuffleDeck();

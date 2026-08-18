@@ -24,13 +24,13 @@ public class GamePhaseJudge extends GamePhase {
         }
         data.redDeck.putAwayCards(data.getAllPlayed()); // Adding cards to the "played apples" pile
 
-        int winningIDx = winningApple.playerID;
+        int winningID = winningApple.playerID;
         String apple = winningApple.apple;
         
         data.setWinning(winningApple);
         for (int i = 0 ; i < players.size() ; i++) {
             // Announce round winner, we always use false here as we always want to announce which apple a player won with!
-            players.get(i).announceWinner(winningIDx, false, apple);
+            players.get(i).announceWinner(winningID, false, apple);
         }
     } 
 }

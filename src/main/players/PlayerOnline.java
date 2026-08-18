@@ -15,6 +15,10 @@ public class PlayerOnline extends Player {
     public BufferedReader inFromClient;
     public DataOutputStream outToClient;
 
+    // Once a connection has been lost, we will not regain it, and thus do not need to restate that transmissions have failed each time
+    // the player takes a bot-like action.
+    boolean errorFlag = false;
+
     public PlayerOnline(int playerID, BufferedReader in, DataOutputStream out) {
         super(playerID);
         this.inFromClient = in;
@@ -28,7 +32,10 @@ public class PlayerOnline extends Player {
         try {
             outToClient.writeBytes(output+'\n');
         } catch (Exception e) {
-            System.err.println("Communication error with player "+playerID+" in addToHand: "+e);
+            if (!errorFlag) {
+                System.err.println("Communication error with player "+playerID+" in addToHand: "+e);
+            }
+            errorFlag = true;
         }
     }
 
@@ -38,7 +45,10 @@ public class PlayerOnline extends Player {
         try {
             outToClient.writeBytes(output+'\n');
         } catch (Exception e) {
-            System.err.println("Communication error with player "+playerID+" in winCard: "+e);
+            if (!errorFlag) {
+                System.err.println("Communication error with player "+playerID+" in winCard: "+e);
+            }
+            errorFlag = true;
         }
         wonCards.add(card);
     }
@@ -56,13 +66,16 @@ public class PlayerOnline extends Player {
             hand.remove(hand.size()-1);
             playedCards.add(apple);
         } catch (Exception e) {
-            System.err.println("Error in receiving from player "+playerID+" in play: "+e);
+            if (!errorFlag) {
+                System.err.println("Error in receiving from player "+playerID+" in play: "+e);
+            }
+            errorFlag = true;
             // In the case of a player disconnecting, they will automatically play the newest card in their hand
             // This is done in order to avoid a situation where a card they've previously played is used again
-            int lastIDX = hand.size()-1;
-            PlayedApple apple = new PlayedApple(hand.get(lastIDX), playerID);
+            int lastIndex = hand.size()-1;
+            PlayedApple apple = new PlayedApple(hand.get(lastIndex), playerID);
             playedCards.add(apple);
-            hand.remove(lastIDX); 
+            hand.remove(lastIndex); 
         }
     }
 
@@ -76,16 +89,26 @@ public class PlayerOnline extends Player {
         try {
             outToClient.writeBytes(output+'\n');
         } catch (Exception e) {
+            if (!errorFlag) {
             System.err.println("Error transmitting to player "+playerID+" in judge: "+e);
+            }
+            errorFlag = true;
         }
 
         try {
             String judgeString = inFromClient.readLine();
             String[] cardData = judgeString.split("[|]"); // Deconstruct return data from judge (formatted as "cardText|playerID")
             winningApple.setValue(cardData[0], Integer.parseInt(cardData[1])); // Update  value of the winning apple to correspond
-        } catch (Exception e) {
+        }   catch (NumberFormatException e) {
+            // In the case of a number that somehow doesn't parse right (shouldn't happen as we check for this clientside too)
+            // We default to index zero without tripping the error flag since that mostly concerns the connection itself
+            winningApple.setValue(allApples.get(0).apple, allApples.get(0).playerID);
+        }   catch (Exception e) {
+            if (!errorFlag) {
+                System.err.println("Error in receiving from player "+playerID+" in judge: "+e);
+            }
+            errorFlag = true;
             // Default act as bot in judging to make game progress
-            System.err.println("Error in receiving from player "+playerID+" in judge: "+e);
             winningApple.setValue(allApples.get(0).apple, allApples.get(0).playerID);
         }       
     }
@@ -103,7 +126,10 @@ public class PlayerOnline extends Player {
          try {
             outToClient.writeBytes(output+'\n');
         } catch (Exception e) {
-            System.err.println("Error transmitting to player "+playerID+" in showGreen: "+e);
+            if (!errorFlag) {
+                System.err.println("Error transmitting to player "+playerID+" in showGreen: "+e);
+            }
+            errorFlag = true;
         }
     }
 
@@ -116,7 +142,10 @@ public class PlayerOnline extends Player {
         try {
             outToClient.writeBytes(output+'\n');
         } catch (Exception e) {
-            System.err.println("Error in transmitting to player "+playerID+" in showApples "+e);
+            if (!errorFlag) {
+                System.err.println("Error in transmitting to player "+playerID+" in showApples "+e);
+            }
+            errorFlag = true;
         }
     }
 
@@ -137,7 +166,10 @@ public class PlayerOnline extends Player {
         try {
             outToClient.writeBytes(outputString+'\n');
         } catch (Exception e) {
-            System.err.println("Error in transmitting to player "+playerID+" in announceWinner: "+e);
+            if (!errorFlag) {
+                System.err.println("Error in transmitting to player "+playerID+" in announceWinner: "+e);
+            }
+            errorFlag = true;
         }
     }
 }

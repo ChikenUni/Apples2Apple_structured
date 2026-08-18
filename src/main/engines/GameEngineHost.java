@@ -26,6 +26,9 @@ public class GameEngineHost {
         CardDeck greenApples = new CardDeck("greenApples.txt");
         CardDeck redApples = new CardDeck("redApples.txt");
         this.GSO = new GameStateObject(greenApples, redApples, playerCount);
+        this.port = port;
+        createPlayers(onlinePlayers);
+        createPhases(onlinePlayers);
     }
 
     // Create players of online and offline varieties, padding with bots until 4 players are present

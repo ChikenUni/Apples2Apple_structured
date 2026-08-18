@@ -24,7 +24,8 @@ public class OnlineManager {
             players.add(nextPlayer);
         }
         } catch (Exception e) {
-            System.out.println("Something went wrong in setting up connections: "+e);
+            System.err.println("Something went wrong in setting up connections: "+e);
+            System.exit(0);
         }
     } 
 
@@ -32,7 +33,7 @@ public class OnlineManager {
         try {
             connection.close();
         } catch (Exception e) {
-            System.out.println("Something went wrong in closing the server: "+e);
+            System.err.println("Something went wrong in closing the server: "+e);
         }
     }
 }

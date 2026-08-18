@@ -18,6 +18,7 @@ public class GameEngineClient {
     PlayerLocal clientPlayer;
     boolean gameOver = false;
 
+    // The client expects the server to be started before itself, and will thus terminate if no socket exists at the address
     public GameEngineClient(String hostAddress, int port) {
         clientPlayer = new PlayerLocal(0); 
         // The player ID of the client player does not matter locally
@@ -27,7 +28,8 @@ public class GameEngineClient {
             inFromHost = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			outToHost = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
-            System.out.println("Error in connecting to host: "+e);
+            System.err.println("Error in connecting to host: "+e);
+            System.exit(0);
         }
     }
 
@@ -93,7 +95,7 @@ public class GameEngineClient {
                 break;
             }
         } catch (Exception e){
-            System.out.println("Client error: "+e);
+            System.err.println("Client error: "+e);
             gameOver =  true;
             // If the server loses connection we close the game
         }
@@ -108,7 +110,8 @@ public class GameEngineClient {
         try {
             outToHost.writeBytes(output+"\n");
         } catch (Exception e) {
-            System.out.println("Error in sending played card to host: " +e);
+            System.err.println("Error in sending played card to host: " +e);
+            gameOver =  true;
         }
     }
 
@@ -131,7 +134,8 @@ public class GameEngineClient {
         try {
             outToHost.writeBytes(output+"\n");    
         } catch (Exception e) {
-            System.out.println("Error in sending winning card to host: " +e);
+            System.err.println("Error in sending winning card to host: " +e);
+            gameOver =  true;
         }
     }  
 
