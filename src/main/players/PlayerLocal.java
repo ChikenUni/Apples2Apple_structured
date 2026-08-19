@@ -80,7 +80,7 @@ public class PlayerLocal extends Player {
     // Functions below just print game information to the player
 
     // Print roundstart information
-    @Override public void startRound(String greenApple, int ID){
+    @Override public void startRound(String greenApple, int ID) {
         
         System.out.println("****************************************************");
         if (this.playerID == ID){
@@ -94,7 +94,7 @@ public class PlayerLocal extends Player {
     }
 
     // Print the apples that was played this round, so that each player can see them
-    @Override public void showApples(ArrayList<PlayedApple> apples){
+    @Override public void showApples(ArrayList<PlayedApple> apples) {
         System.out.println("The selected cards are: ");
         for (int i = 0 ; i < apples.size() ; i++){
             System.out.println("("+i+") "+apples.get(i).apple);
@@ -102,7 +102,7 @@ public class PlayerLocal extends Player {
     }
 
     // Print who won the round/game
-    @Override public void announceWinner(int winnerID, boolean wonMatch, String apple){
+    @Override public void announceWinner(int winnerID, boolean wonMatch, String apple) {
         System.out.println("\n"+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         String outputString;
         if (winnerID == playerID) {

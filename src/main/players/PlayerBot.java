@@ -7,7 +7,7 @@ import src.main.apples.PlayedApple;
 public class PlayerBot extends Player {
     // The bot player always plays and votes for the card with index zero in both methods
     // Since it is a bot and cannot read, the methods that communicate textual information remain unimplemented
-    public PlayerBot(int playerID){
+    public PlayerBot(int playerID) {
         super(playerID);
     }
 

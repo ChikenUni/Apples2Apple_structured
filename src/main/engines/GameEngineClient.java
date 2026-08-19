@@ -10,7 +10,6 @@ import src.main.players.*;
 import src.main.apples.*;
 
 public class GameEngineClient {
-    ArrayList<String> hand;
     BufferedReader inFromHost;
     DataOutputStream outToHost;
     Socket socket;
@@ -35,7 +34,7 @@ public class GameEngineClient {
 
     // Keep reading and handling messages until the server tells the client to stop.
     public void runGame() {
-        while(!gameOver){
+        while(!gameOver) {
             dispatchMessage();
         } 
     } 
@@ -94,7 +93,7 @@ public class GameEngineClient {
                 System.out.println(message);
                 break;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Client error: "+e);
             gameOver =  true;
             // If the server loses connection we close the game

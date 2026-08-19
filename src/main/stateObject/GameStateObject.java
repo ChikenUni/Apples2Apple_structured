@@ -15,7 +15,7 @@ public class GameStateObject {
     public CardDeck greenDeck;
     public CardDeck redDeck;
 
-    public GameStateObject(CardDeck greenDeck, CardDeck redDeck, int playerCount){
+    public GameStateObject(CardDeck greenDeck, CardDeck redDeck, int playerCount) {
         Random rnd = ThreadLocalRandom.current();
         this.judgeID = rnd.nextInt(playerCount); // randomize starting judge
         this.gameFinished = false;
@@ -26,53 +26,53 @@ public class GameStateObject {
     // (With the exception of the cardDecks, as those already have methods that help isolate their data)
 
     // ------ SETTERS ------ //
-    public void setGreen(String newGreen){
+    public void setGreen(String newGreen) {
         this.newGreen = newGreen;
     }
 
-    public void setWinning(PlayedApple winning){
+    public void setWinning(PlayedApple winning) {
         this.winningApple = winning;
     }
 
-    public void setAllPlayed(ArrayList<PlayedApple> allApples){
+    public void setAllPlayed(ArrayList<PlayedApple> allApples) {
         this.allPlayedApples = allApples;
     }
 
-    public void setHostID(int ID){
+    public void setHostID(int ID) {
         this.hostID = ID;
     }
 
-    public void setJudgeID(int newJudge){
+    public void setJudgeID(int newJudge) {
         this.judgeID = newJudge;
     }
 
-    public void finishGame(){
+    public void finishGame() {
         this.gameFinished = true;
     }
 
     // ------ GETTERs ------ //
 
-    public String getGreen(){
+    public String getGreen() {
         return this.newGreen;
     }
 
-    public ArrayList<PlayedApple> getAllPlayed(){
+    public ArrayList<PlayedApple> getAllPlayed() {
         return this.allPlayedApples;
     }
 
-    public PlayedApple getWinningApple(){
+    public PlayedApple getWinningApple() {
         return this.winningApple;
     }
 
-    public int getJudge(){
+    public int getJudge() {
         return this.judgeID;
     }
 
-    public int getHost(){
+    public int getHost() {
         return this.hostID;
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return this.gameFinished;
     }
 }

@@ -34,14 +34,14 @@ public class CardDeck { // Deck class that works for any kind of card, filename 
 			int index = rnd.nextInt(i+1);
 			String a = cards.get(index); 
             cards.set(index, cards.get(i));
-             cards.set(i, a); // SWAP
+            cards.set(i, a); // SWAP
 		}
     } 
 
     // Remove the "top" card from the deck, then return it
     public String draw() {
         // If the deck has no more cards, we reshuffle it and start dealing again.
-        if (cards.isEmpty()){
+        if (cards.isEmpty()) {
             cards = usedCards;
             shuffleDeck();
             usedCards = new ArrayList<>();

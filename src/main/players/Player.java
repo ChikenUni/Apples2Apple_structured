@@ -12,41 +12,41 @@ public abstract class Player {
     public ArrayList<String> wonCards;
     public int playerID;
 
-    public Player(int playerID){
+    public Player(int playerID) {
         this.playerID = playerID;
         this.hand = new ArrayList<>();
         this.wonCards = new ArrayList<>();
     }
 
-    public void addToHand(String card){
+    public void addToHand(String card) {
         hand.add(card);
     }
 
-    public void winCard(String card){
+    public void winCard(String card) {
         wonCards.add(card);
     }
 
-    public String removeFromHand(int index){
+    public String removeFromHand(int index) {
         return hand.remove(index);
     }
 
-    public void play(List<PlayedApple> apples){
+    public void play(List<PlayedApple> apples) {
         // This is implemented in the child classes for Bot, Host, and Client.
     }
 
-    public void judge(PlayedApple winningApple, ArrayList<PlayedApple> apples){
+    public void judge(PlayedApple winningApple, ArrayList<PlayedApple> apples) {
         // This is implemented in the child classes for Bot, Host, and Client.
     }
     
-    public void startRound(String greenApple, int ID){
+    public void startRound(String greenApple, int ID) {
         // This is implemented in the child classes for Host and Client.
     }
 
-    public void showApples(ArrayList<PlayedApple> apples){
+    public void showApples(ArrayList<PlayedApple> apples) {
         // This is implemented in the child classes for Host and Client.
     }
     
-    public void announceWinner(int winnerID, boolean wonMatch, String apple){
+    public void announceWinner(int winnerID, boolean wonMatch, String apple) {
         // This is implemented in the child classes for Host and Client, Bots do not care...
     }
 }

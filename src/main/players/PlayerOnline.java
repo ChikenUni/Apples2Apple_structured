@@ -54,7 +54,7 @@ public class PlayerOnline extends Player {
     }
 
     // Await online player's red apple response
-    @Override public void play(List<PlayedApple> playedCards){ 
+    @Override public void play(List<PlayedApple> playedCards) { 
         try {
             outToClient.writeBytes("play|\n");
         } catch (Exception e) {
@@ -80,9 +80,9 @@ public class PlayerOnline extends Player {
     }
 
     // Send this round's played apples to the judge, then await their response and parse it
-    @Override public void judge(PlayedApple winningApple, ArrayList<PlayedApple> allApples){
+    @Override public void judge(PlayedApple winningApple, ArrayList<PlayedApple> allApples) {
         String output = "judge";
-        for (int i = 0 ; i < allApples.size() ; i++){
+        for (int i = 0 ; i < allApples.size() ; i++) {
             PlayedApple apple = allApples.get(i);
             output += '|' + apple.apple + '|' + apple.playerID; // Add text and player information for each apple that is to be judged to the output string
         }
@@ -114,14 +114,14 @@ public class PlayerOnline extends Player {
     }
 
      // Announce the round's green apple as well as the judge's ID
-    @Override public void startRound(String greenApple, int ID){
+    @Override public void startRound(String greenApple, int ID) {
         String output = "start|"+greenApple;
 
-        if (ID == playerID){
+        if (ID == playerID) { // Add whether or not the judge ID corresponds to the player we are transmitting the message to
             output += "|You are the judge!";
         } else {
             output += "|Player "+ID+" is the judge!";
-        } // Add whether or not the judge ID corresponds to the player we are transmitting the message to
+        } 
 
          try {
             outToClient.writeBytes(output+'\n');
@@ -134,7 +134,7 @@ public class PlayerOnline extends Player {
     }
 
     // Announce this round's played apples
-    @Override public void showApples(ArrayList<PlayedApple> apples){
+    @Override public void showApples(ArrayList<PlayedApple> apples) {
         String output = "apples";
         for (int i = 0 ; i < apples.size() ; i++) {
             output += "|" + apples.get(i).apple;
@@ -150,7 +150,7 @@ public class PlayerOnline extends Player {
     }
 
     // Announce the winner of the round/game
-    @Override public void announceWinner(int winnerID, boolean wonMatch, String apple){
+    @Override public void announceWinner(int winnerID, boolean wonMatch, String apple) {
         String outputString;
         if (winnerID == playerID) {
             outputString = "You won the ";
