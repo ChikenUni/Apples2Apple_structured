@@ -9,7 +9,7 @@ import src.main.apples.*;
 
 public class GameEngineHost {
     GamePhaseManager phaseManager;
-    public GameStateObject GSO;
+    public GameStateObject stateObject;
     public ArrayList<Player> players;
     OnlineManager server;
     // Maximum hand size can be varied here, default is 7
@@ -25,7 +25,7 @@ public class GameEngineHost {
         int playerCount = (onlinePlayers<defaultPlayerCount)? defaultPlayerCount : onlinePlayers+1;
         CardDeck greenApples = new CardDeck("greenApples.txt");
         CardDeck redApples = new CardDeck("redApples.txt");
-        this.GSO = new GameStateObject(greenApples, redApples, playerCount);
+        this.stateObject = new GameStateObject(greenApples, redApples, playerCount);
         this.port = port;
         createPlayers(onlinePlayers);
         createPhases(onlinePlayers);
@@ -48,7 +48,7 @@ public class GameEngineHost {
 
         Player thisPlayer = new PlayerLocal(players.size());
         players.add(thisPlayer); // Generate the local player
-        GSO.setHostID(thisPlayer.playerID);
+        stateObject.setHostID(thisPlayer.playerID);
     } 
 
     // To add new phases into the game loop, slot them into this function at the appropriate spot in the phase order
@@ -66,17 +66,17 @@ public class GameEngineHost {
         // Deal the amount of cards defined by maxHandSize to each player
         for (int i = 0 ; i < maxHandSize ; i++) {
             for (int j = 0 ; j < players.size() ; j++) {
-                players.get(j).addToHand(GSO.redDeck.draw());
+                players.get(j).addToHand(stateObject.redDeck.draw());
             }
         } 
     }
 
-    // Run the game until someone wins, then annouce who won to all players
+    // Run the game until someone wins, then announce who won to all players
     public void mainLoop() {
-        while(!this.GSO.isFinished()) {
-            phaseManager.iterate(this.GSO);
+        while(!this.stateObject.isFinished()) {
+            phaseManager.iterate(this.stateObject);
         }
-        int winnerID = this.GSO.getWinningApple().playerID;
+        int winnerID = this.stateObject.getWinningApple().playerID;
         for (int i = 0 ; i < players.size() ; i++) {
             players.get(i).announceWinner(winnerID, true, "");
         } 

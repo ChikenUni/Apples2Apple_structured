@@ -5,6 +5,10 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import src.main.apples.*;
 
+
+// Shared state class where other classes can transmit data between each other without needing direct references
+// Any alteration needs to be done through the appropriate getters and setters
+// (With the exception of the cardDecks, as those already have methods that help isolate their data)
 public class GameStateObject {
     private String newGreen;
     private PlayedApple winningApple;
@@ -21,9 +25,7 @@ public class GameStateObject {
         this.gameFinished = false;
         this.greenDeck = greenDeck;
         this.redDeck = redDeck;
-    } // Shared state class where other classes can transmit data between each other without needing direct references
-    // Any alteration needs to be done through the appropriate getters and setters
-    // (With the exception of the cardDecks, as those already have methods that help isolate their data)
+    } 
 
     // ------ SETTERS ------ //
     public void setGreen(String newGreen) {

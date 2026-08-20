@@ -14,8 +14,8 @@ public class tests_setupTest {
     @Test // REQ 1 & 2
     void testReadCards() {
         GameEngineHost game = new GameEngineHost(0, 0);
-        CardDeck red = game.GSO.redDeck;
-        CardDeck green = game.GSO.greenDeck;
+        CardDeck red = game.stateObject.redDeck;
+        CardDeck green = game.stateObject.greenDeck;
 
         int greenCards = green.getCardAmt();
         int redCards = red.getCardAmt();
@@ -38,8 +38,8 @@ public class tests_setupTest {
 
         // The GameEngineHost constructor initializes red and green decks and shuffles them
         GameEngineHost game = new GameEngineHost(0,0);
-        CardDeck shuffledRed = game.GSO.redDeck;
-        CardDeck shuffledGreen = game.GSO.greenDeck;
+        CardDeck shuffledRed = game.stateObject.redDeck;
+        CardDeck shuffledGreen = game.stateObject.greenDeck;
         ArrayList<String> shuffledCardsRed = new ArrayList<>();
         ArrayList<String> shuffledCardsGreen = new ArrayList<>();
         for (int i = 0 ; i < 100 ; i++) {

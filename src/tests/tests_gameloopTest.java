@@ -38,11 +38,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 7 & 9
     void testPlayApples(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -59,11 +55,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 8
     void testShuffledPlayed(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -92,11 +84,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 10
     void testJudge(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -122,11 +110,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 11 & 12
     void testDiscardAndRefill(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -156,11 +140,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 13
     void testNewJudgeIsPicked(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -180,11 +160,7 @@ public class tests_gameloopTest {
 
     @Test // REQ 14 
     void testGiveApple(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new PlayerBot(0));
-        players.add(new PlayerBot(1));
-        players.add(new PlayerBot(2));
-        players.add(new PlayerBot(3));
+        ArrayList<Player> players = setupPlayers();
 
         CardDeck greenDeck = new CardDeck("greenApples.txt");
         CardDeck redDeck = new CardDeck("redApples.txt");
@@ -253,5 +229,15 @@ public class tests_gameloopTest {
                 dealTo.addToHand(GSO.redDeck.draw());
             } 
         }
+    }
+
+    // Function that creates an arraylist with four players, to make test code more compact
+    ArrayList<Player> setupPlayers() {
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new PlayerBot(0));
+        players.add(new PlayerBot(1));
+        players.add(new PlayerBot(2));
+        players.add(new PlayerBot(3));
+        return players;
     }
 }
